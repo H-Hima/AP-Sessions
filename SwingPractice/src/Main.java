@@ -65,5 +65,13 @@ public class Main {
         });
 
         frame.setVisible(true);
+
+        XOFrame myFrame=new XOFrame();
+        myFrame.setVisible(true);
+
+        Graphics g=myFrame.getGraphics();
+        while(true) {
+            g.drawLine(10, 10, 500, 500);
+        }
     }
 }
