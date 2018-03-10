@@ -2,45 +2,60 @@ package drawing;
 
 import java.awt.*;
 
-public class Rectangle extends Shape {
+public class Rectangle extends Shape implements Animatable {
 
-    Rectangle(Point upperLeft , Point lowerRight) {
-        this(upperLeft,lowerRight,Color.RED,Color.BLUE);
+    protected double width;
+    protected double height;
+
+    Rectangle(Point upperLeft , double width, double height) {
+        this(upperLeft,width,height,Color.RED,Color.BLUE);
     }
 
-    Rectangle(Point upperLeft , Point lowerRight, Color solidColor, Color borderColor) {
-        super(new Point[]{upperLeft,lowerRight}, solidColor, borderColor);
-        rectify();
+    Rectangle(Point upperLeft , double width,double height, Color solidColor, Color borderColor) {
+        super(upperLeft, solidColor, borderColor);
+        this.width=width;
+        this.height=height;
     }
 
-    public void rectify() {
-        if(vertices[0].x>vertices[1].x) {
-            double x=vertices[0].x;
-            vertices[0].x=vertices[1].x;
-            vertices[1].x=x;
-        }
-        if(vertices[0].y>vertices[1].y) {
-            double y=vertices[0].y;
-            vertices[0].y=vertices[1].y;
-            vertices[1].y=y;
-        }
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     @Override
     public double getArea() {
-        Point dif=vertices[1].subtract(vertices[0]);
-        return Math.abs(dif.x*dif.y);
+        return (width*height);
     }
 
     @Override
     public void render(Graphics2D G) {
-        Point dif=vertices[1].subtract(vertices[0]);
-
+        Stroke stroke=G.getStroke();
         G.setColor(solidColor);
-        G.fillRect((int)vertices[0].x,(int)vertices[0].y,(int)dif.x,(int)dif.y);
+        G.fillRect((int)location.x,(int)location.y,(int)width,(int)height);
 
         G.setStroke(new BasicStroke(thickness));
         G.setColor(borderColor);
-        G.drawRect((int)vertices[0].x,(int)vertices[0].y,(int)dif.x,(int)dif.y);
+        G.drawRect((int)location.x,(int)location.y,(int)width,(int)height);
+
+        G.setStroke(stroke);
+    }
+
+
+    public boolean isIn(Point p) {
+        Point dif=p.subtract(location);
+        if(dif.getX()>0&&dif.getY()>0&&dif.getX()<width&&dif.getY()<height)
+            return true;
+        return false;
     }
 }

@@ -37,4 +37,8 @@ public class Point {
     public double crossProduct(Point p) {
         return (x*p.y-y*p.x);
     }
+
+    public double getRad() {
+        return Math.sqrt(x*x+y*y);
+    }
 }

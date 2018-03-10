@@ -3,12 +3,22 @@ package drawing;
 import java.awt.*;
 
 public class Line extends Shape implements Drawable {
+    Point end;
+
     public Line(Point start, Point end) {
-        super(new Point[]{start,end},Color.RED,Color.BLACK);
+        this(start,end, Color.RED,Color.BLACK);
     }
 
     public Line(Point start,Point end,Color solidColor, Color borderColor) {
-        super(new Point[]{start,end},solidColor,borderColor);
+        super(start,solidColor,borderColor);
+    }
+
+    public Point getEnd() {
+        return end;
+    }
+
+    public void setEnd(Point end) {
+        this.end = end;
     }
 
     public double getArea() {
@@ -19,6 +29,10 @@ public class Line extends Shape implements Drawable {
     public void render(Graphics2D G) {
         ((Graphics2D)G).setStroke(new BasicStroke(thickness));
         G.setColor(this.solidColor);
-        G.drawLine((int)vertices[0].getX(),(int)vertices[0].getY(),(int)vertices[1].getX(),(int)vertices[1].getY());
+        G.drawLine((int)location.getX(),(int)location.getY(),(int)end.getX(),(int)end.getY());
+    }
+
+    public boolean isIn(Point p) {
+        return false;
     }
 }

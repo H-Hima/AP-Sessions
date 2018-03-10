@@ -1,18 +1,31 @@
 package drawing;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Iterator;
 
-public abstract class Shape implements Drawable {
-    protected Point vertices[];
+public abstract class Shape implements Drawable, Animatable {
+    protected Point location;
+
     protected Color solidColor=Color.WHITE, borderColor=Color.BLACK;
     protected int thickness=3;
 
-    Shape(Point[] vertices) {
-        this.vertices=vertices;
+    protected ArrayList<Animation> animations=new ArrayList<>();
+
+    Shape(Point location) {
+        this.location=location;
     }
 
-    Shape(Point[] vertices,Color solidColor,Color borderColor) {
-        this.vertices=vertices;
+    public Point getLocation() {
+        return location;
+    }
+
+    public void setLocation(Point location) {
+        this.location = location;
+    }
+
+    Shape(Point location,Color solidColor,Color borderColor) {
+        this.location=location;
         this.borderColor=borderColor;
         this.solidColor=solidColor;
     }
@@ -23,10 +36,6 @@ public abstract class Shape implements Drawable {
 
     public void setThickness(int thickness) {
         this.thickness = thickness;
-    }
-
-    int getNumberOfVertices() {
-        return vertices.length;
     }
 
     public Color getSolidColor() {
@@ -45,6 +54,19 @@ public abstract class Shape implements Drawable {
         this.borderColor=color;
     }
 
+    public abstract boolean isIn(Point p);
+
     public abstract double getArea();
 
+    public void addAnimation(Animation animation) {
+        animations.add(animation);
+    }
+
+    @Override
+    public void step() {
+        Iterator<Animation> cur=animations.iterator();
+        while(cur.hasNext()) {
+            cur.next().animate();
+        }
+    }
 }

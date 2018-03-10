@@ -10,19 +10,26 @@ public class Circle extends Shape implements Drawable {
         this(center,radius,Color.GREEN,Color.PINK);
     }
 
-    Circle(Point center, double radius, Color solidColor, Color borderColor) {
-        super(new Point[]{center}, solidColor, borderColor);
+    Circle(Point location, double radius, Color solidColor, Color borderColor) {
+        super(location, solidColor, borderColor);
         this.radius=radius;
     }
 
     @Override
     public void render(Graphics2D G) {
         G.setColor(solidColor);
-        G.fillOval((int)vertices[0].x,(int)vertices[0].y,(int)radius*2,(int)radius*2);
+        G.fillOval((int)(location.x-radius),(int)(location.y-radius),(int)radius*2,(int)radius*2);
 
+        Stroke stroke=G.getStroke();
         G.setStroke(new BasicStroke(thickness));
         G.setColor(borderColor);
-        G.drawOval((int)vertices[0].x,(int)vertices[0].y,(int)radius*2,(int)radius*2);
+        G.drawOval((int)(location.x-radius),(int)(location.y-radius),(int)radius*2,(int)radius*2);
+        G.setStroke(stroke);
+    }
+
+    public boolean isIn(Point p) {
+        double dist=location.subtract(p).getRad();
+        return dist<radius;
     }
 
     @Override
