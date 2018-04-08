@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     PaintPanel paintPanel;
     JButton refreshButton;
     JButton addButton;
+    JButton saveButton;
     JButton animationButton;
 
     MainFrame() {
@@ -39,6 +40,16 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paintPanel.setAnimating(!paintPanel.getAnimating());
+            }
+        });
+
+        saveButton=new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser=new JFileChooser();
+                chooser.showOpenDialog(MainFrame.this);
+                System.out.println(chooser.getSelectedFile().toString());
             }
         });
 
@@ -124,6 +135,7 @@ public class MainFrame extends JFrame {
             }
         });
 
+        toolPanel.add(saveButton);
         toolPanel.add(addButton);
         toolPanel.add(refreshButton);
         toolPanel.add(animationButton);

@@ -1,6 +1,8 @@
 package drawing;
 
 import java.awt.*;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 public class Circle extends Shape implements Drawable {
 
@@ -43,5 +45,15 @@ public class Circle extends Shape implements Drawable {
 
     public void setRadius(double radius) {
         this.radius = radius;
+    }
+
+    public void save(PrintStream printer) {
+        super.save(printer);
+        printer.println(radius);
+    }
+
+    public void load(Scanner scanner) {
+        super.load(scanner);
+        scanner.nextDouble();
     }
 }

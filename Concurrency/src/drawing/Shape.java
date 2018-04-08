@@ -1,8 +1,10 @@
 package drawing;
 
 import java.awt.*;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public abstract class Shape implements Drawable, Animatable {
     protected Point location;
@@ -57,6 +59,14 @@ public abstract class Shape implements Drawable, Animatable {
     public abstract boolean isIn(Point p);
 
     public abstract double getArea();
+
+    public void save(PrintStream printer) {
+        printer.println(solidColor.toString());
+    }
+
+    public void load(Scanner scanner) {
+        //printer.println(solidColor.toString());
+    }
 
     public void addAnimation(Animation animation) {
         animations.add(animation);

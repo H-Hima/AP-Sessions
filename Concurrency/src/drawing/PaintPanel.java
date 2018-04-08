@@ -6,9 +6,11 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.PrintStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class PaintPanel extends JPanel {
 
@@ -35,12 +37,7 @@ public class PaintPanel extends JPanel {
             @Override
             public void run() {
                 while(true) {
-                    if(animating==false) {
-                        try {
-                            Thread.sleep(1);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                    if(getAnimating()==false) {
                         continue;
                     }
 
@@ -51,6 +48,7 @@ public class PaintPanel extends JPanel {
                     }
                     try {
                         repaint();
+                        //paintComponent(getGraphics());
                         Thread.sleep(1);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -127,11 +125,15 @@ public class PaintPanel extends JPanel {
     }
 
     public boolean getAnimating() {
-        return animating;
+        synchronized (this) {
+            return animating;
+        }
     }
 
     public void setAnimating(boolean animating) {
-        this.animating = animating;
+        synchronized (this) {
+            this.animating = animating;
+        }
     }
 
     public void addShape(Shape shape) {
@@ -141,4 +143,43 @@ public class PaintPanel extends JPanel {
     public void clearShapes() {
         shapes.clear();
     }
+
+    public void save(PrintStream printer) {
+        printer.println(shapes.size());
+        for(Shape shape:shapes) {
+            if(shape instanceof  Circle) {
+                printer.println("Circle");
+            }
+            else if(shape instanceof  Rectangle) {
+                printer.println("Rectangle");
+            }
+            //...
+            shape.save(printer);
+        }
+        printer.println(animating);
+    }
+
+    public void load(Scanner scanner) {
+        shapes=new ArrayList<>();
+        int size=scanner.nextInt();
+        while(size>0) {
+            size--;
+            String type=scanner.nextLine();
+            Shape c=null;
+            switch (type) {
+                case "Circle":
+                    c=new Circle(new Point(0,0),10);
+                    c.load(scanner);
+                    break;
+                case "Rectangle":
+                    c=new Rectangle(new Point(0,0),10,10);
+                    c.load(scanner);
+                    break;
+            }
+            shapes.add(c);
+        }
+        animating=scanner.nextBoolean();
+    }
+
+
 }
