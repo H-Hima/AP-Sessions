@@ -8,13 +8,19 @@ public class Circle extends Shape implements Drawable {
 
     protected double radius=100;
 
-    Circle(Point center, double radius) {
+    public Circle(Point center, double radius) {
         this(center,radius,Color.GREEN,Color.PINK);
     }
 
-    Circle(Point location, double radius, Color solidColor, Color borderColor) {
+    public Circle(Point location, double radius, Color solidColor, Color borderColor) {
         super(location, solidColor, borderColor);
         this.radius=radius;
+    }
+
+    public Circle(Scanner scanner) {
+        super(scanner);
+        //radius=scanner.nextDouble();
+        load(scanner,false);
     }
 
     @Override
@@ -53,7 +59,13 @@ public class Circle extends Shape implements Drawable {
     }
 
     public void load(Scanner scanner) {
-        super.load(scanner);
-        scanner.nextDouble();
+        load(scanner,true);
+    }
+
+    public void load(Scanner scanner, boolean loadSuper) {
+        if(loadSuper) {
+            super.load(scanner);
+        }
+        radius = scanner.nextDouble();
     }
 }

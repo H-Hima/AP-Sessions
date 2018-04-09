@@ -1,6 +1,8 @@
 package drawing;
 
 import java.awt.*;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 public class Line extends Shape implements Drawable {
     Point end;
@@ -11,6 +13,11 @@ public class Line extends Shape implements Drawable {
 
     public Line(Point start,Point end,Color solidColor, Color borderColor) {
         super(start,solidColor,borderColor);
+    }
+
+    public Line(Scanner scanner) {
+        super(scanner);
+        load(scanner,false);
     }
 
     public Point getEnd() {
@@ -34,5 +41,21 @@ public class Line extends Shape implements Drawable {
 
     public boolean isIn(Point p) {
         return false;
+    }
+
+    public void save(PrintStream printer) {
+        super.save(printer);
+        end.save(printer);
+    }
+
+    public void load(Scanner scanner) {
+        load(scanner,true);
+    }
+
+    public void load(Scanner scanner, boolean loadSuper) {
+        if(loadSuper) {
+            super.load(scanner);
+        }
+        end=new Point(scanner);
     }
 }

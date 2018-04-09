@@ -4,11 +4,12 @@ import javafx.scene.chart.Axis;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.Iterator;
+import java.util.Scanner;
 
 public class MainFrame extends JFrame {
 
@@ -18,6 +19,7 @@ public class MainFrame extends JFrame {
     JButton refreshButton;
     JButton addButton;
     JButton saveButton;
+    JButton loadButton;
     JButton animationButton;
 
     MainFrame() {
@@ -49,7 +51,30 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 JFileChooser chooser=new JFileChooser();
                 chooser.showOpenDialog(MainFrame.this);
-                System.out.println(chooser.getSelectedFile().toString());
+                try {
+                    PrintStream printer=new PrintStream(chooser.getSelectedFile());
+                    paintPanel.save(printer);
+                    printer.close();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
+            }
+        });
+
+        loadButton=new JButton("Load");
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser chooser=new JFileChooser();
+                chooser.showOpenDialog(MainFrame.this);
+                try {
+                    Scanner scanner=new Scanner(chooser.getSelectedFile());
+                    paintPanel.load(scanner);
+                    scanner.close();
+                    revalidate();
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
 
@@ -136,6 +161,7 @@ public class MainFrame extends JFrame {
         });
 
         toolPanel.add(saveButton);
+        toolPanel.add(loadButton);
         toolPanel.add(addButton);
         toolPanel.add(refreshButton);
         toolPanel.add(animationButton);

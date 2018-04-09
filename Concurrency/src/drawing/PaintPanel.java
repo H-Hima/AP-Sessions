@@ -145,41 +145,44 @@ public class PaintPanel extends JPanel {
     }
 
     public void save(PrintStream printer) {
-        printer.println(shapes.size());
-        for(Shape shape:shapes) {
-            if(shape instanceof  Circle) {
-                printer.println("Circle");
+        synchronized (this) {
+            printer.println(shapes.size());
+            for (Shape shape : shapes) {
+                printer.println(shape.getClass().getCanonicalName());
+                shape.save(printer);
             }
-            else if(shape instanceof  Rectangle) {
-                printer.println("Rectangle");
-            }
-            //...
-            shape.save(printer);
+            printer.println(animating);
         }
-        printer.println(animating);
     }
 
     public void load(Scanner scanner) {
-        shapes=new ArrayList<>();
-        int size=scanner.nextInt();
-        while(size>0) {
-            size--;
-            String type=scanner.nextLine();
-            Shape c=null;
-            switch (type) {
-                case "Circle":
-                    c=new Circle(new Point(0,0),10);
-                    c.load(scanner);
-                    break;
-                case "Rectangle":
-                    c=new Rectangle(new Point(0,0),10,10);
-                    c.load(scanner);
-                    break;
+        synchronized (this) {
+            setAnimating(false);
+            shapes = new ArrayList<>();
+            int size = scanner.nextInt();
+            for (int i=0;i<size;i++) {
+                scanner.nextLine();
+                String type = scanner.nextLine();
+                Shape shape = null;
+                switch (type) {
+                    case "drawing.Circle":
+                        shape=new Circle(scanner);
+                        break;
+                    case "drawing.Rectangle":
+                        shape=new Rectangle(scanner);
+                        break;
+                    case "drawing.Triangle":
+                        //shape = new Rectangle(new Point(0, 0), 10, 10);
+                        //shape.load(scanner);
+                        break;
+                    case "drawing.Line":
+                        shape = new Line(scanner);
+                        break;
+                }
+                shapes.add(shape);
             }
-            shapes.add(c);
+            animating = scanner.nextBoolean();
+            repaint();
         }
-        animating=scanner.nextBoolean();
     }
-
-
 }

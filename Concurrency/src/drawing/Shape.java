@@ -1,7 +1,9 @@
 package drawing;
 
+import javax.xml.stream.Location;
 import java.awt.*;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -30,6 +32,13 @@ public abstract class Shape implements Drawable, Animatable {
         this.location=location;
         this.borderColor=borderColor;
         this.solidColor=solidColor;
+    }
+
+    public Shape(Scanner scanner) {
+        location = new Point(scanner);
+        thickness=scanner.nextInt();
+        solidColor = new Color(scanner.nextInt());
+        borderColor = new Color(scanner.nextInt());
     }
 
     public int getThickness() {
@@ -61,11 +70,17 @@ public abstract class Shape implements Drawable, Animatable {
     public abstract double getArea();
 
     public void save(PrintStream printer) {
-        printer.println(solidColor.toString());
+        location.save(printer);
+        printer.println(thickness);
+        printer.println(solidColor.getRGB());
+        printer.println(borderColor.getRGB());
     }
 
     public void load(Scanner scanner) {
-        //printer.println(solidColor.toString());
+        location = new Point(scanner);
+        thickness=scanner.nextInt();
+        solidColor = new Color(scanner.nextInt());
+        borderColor = new Color(scanner.nextInt());
     }
 
     public void addAnimation(Animation animation) {

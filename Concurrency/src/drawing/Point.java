@@ -1,11 +1,18 @@
 package drawing;
 
+import java.io.PrintStream;
+import java.util.Scanner;
+
 public class Point {
     protected double x,y;
 
     public Point(double x,double y) {
         this.x=x;
         this.y=y;
+    }
+
+    public Point(Scanner scanner) {
+        load(scanner);
     }
 
     public double getX() {
@@ -40,5 +47,15 @@ public class Point {
 
     public double getRad() {
         return Math.sqrt(x*x+y*y);
+    }
+
+    public void save(PrintStream printer) {
+        printer.println(x);
+        printer.println(y);
+    }
+
+    public void load(Scanner scanner) {
+        x=scanner.nextDouble();
+        y=scanner.nextDouble();
     }
 }
