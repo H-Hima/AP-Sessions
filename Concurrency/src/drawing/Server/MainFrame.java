@@ -1,14 +1,16 @@
-package drawing;
+package drawing.Server;
 
-import javafx.scene.chart.Axis;
+import drawing.*;
+import drawing.Point;
+import drawing.Rectangle;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Iterator;
+import java.net.ServerSocket;
 import java.util.Scanner;
 
 public class MainFrame extends JFrame {
@@ -22,16 +24,23 @@ public class MainFrame extends JFrame {
     JButton loadButton;
     JButton animationButton;
 
+    int serverPort=9090;
+    ListenThread listenThread;
+
     MainFrame() {
         initialize();
     }
 
-    public void load(Scanner scanner) {
-        paintPanel.load(scanner);
+    public void save(PrintStream printer) {
+        synchronized (this) {
+            paintPanel.save(printer);
+        }
     }
 
-    public void save(PrintStream printer) {
-        paintPanel.save(printer);
+    public void load(Scanner scanner) {
+        synchronized (this) {
+            paintPanel.load(scanner);
+        }
     }
 
     void initialize() {
@@ -98,7 +107,7 @@ public class MainFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paintPanel.clearShapes();
-                Rectangle rect = new Rectangle(new Point(100, 100), 300, 400);
+                drawing.Rectangle rect = new Rectangle(new Point(100, 100), 300, 400);
                 Circle circle = new Circle(new Point(300, 300), 200);
 
                 circle.addAnimation(new Animation(10) {
@@ -179,5 +188,11 @@ public class MainFrame extends JFrame {
         contentPane.add(toolPanel);
 
         setVisible(true);
+
+        if(listenThread != null && listenThread.isAlive()) {
+            listenThread.interrupt();
+        }
+        listenThread=new ListenThread(serverPort,this);
+        listenThread.start();
     }
 }

@@ -116,11 +116,13 @@ public class PaintPanel extends JPanel {
 
     @Override
     protected void paintComponent(Graphics G) {
-        super.paintComponent(G);
-        Iterator<Shape> iterator=shapes.iterator();
-        while(iterator.hasNext()) {
-            Shape cur=iterator.next();
-            cur.render((Graphics2D)G);
+        synchronized (this) {
+            super.paintComponent(G);
+            Iterator<Shape> iterator = shapes.iterator();
+            while (iterator.hasNext()) {
+                Shape cur = iterator.next();
+                cur.render((Graphics2D) G);
+            }
         }
     }
 
@@ -137,11 +139,15 @@ public class PaintPanel extends JPanel {
     }
 
     public void addShape(Shape shape) {
-        shapes.add(shape);
+        synchronized (this) {
+            shapes.add(shape);
+        }
     }
 
     public void clearShapes() {
-        shapes.clear();
+        synchronized (this) {
+            shapes.clear();
+        }
     }
 
     public void save(PrintStream printer) {

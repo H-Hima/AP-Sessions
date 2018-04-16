@@ -9,11 +9,11 @@ public class Rectangle extends Shape implements Animatable {
     protected double width;
     protected double height;
 
-    Rectangle(Point upperLeft , double width, double height) {
+    public Rectangle(Point upperLeft , double width, double height) {
         this(upperLeft,width,height,Color.RED,Color.BLUE);
     }
 
-    Rectangle(Point upperLeft , double width,double height, Color solidColor, Color borderColor) {
+    public Rectangle(Point upperLeft , double width,double height, Color solidColor, Color borderColor) {
         super(upperLeft, solidColor, borderColor);
         this.width=width;
         this.height=height;

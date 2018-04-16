@@ -25,7 +25,7 @@ public abstract class Animation implements Animatable {
         this.stepDelay = stepDelay;
     }
 
-    Animation(int stepDelay) {
+    public Animation(int stepDelay) {
         this.stepDelay=stepDelay;
         nextAnimation=new Date();
         animating=true;
