@@ -13,6 +13,7 @@ public class ClientThread extends Thread {
     BufferedOutputStream outputStream=null;
     BufferedInputStream inputStream=null;
     Scanner scanner=null;
+    PrintStream printer=null;
 
     ClientThread(Socket clientSocket, MainFrame frame) {
         this.clientSocket=clientSocket;
@@ -24,12 +25,15 @@ public class ClientThread extends Thread {
             inputStream=new BufferedInputStream(clientSocket.getInputStream());
             outputStream=new BufferedOutputStream(clientSocket.getOutputStream());
             scanner=new Scanner(inputStream);
+            printer=new PrintStream(outputStream);
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
         while(isInterrupted()==false&&clientSocket.isConnected()) {
+            printer.println();
+            printer.flush();
             frame.load(scanner);
             //frame.repaint();
         }

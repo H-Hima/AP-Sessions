@@ -13,7 +13,9 @@ public class ServerThread extends Thread {
     Socket clientSocket=null;
     BufferedOutputStream outputStream=null;
     BufferedInputStream inputStream=null;
+    Scanner scanner=null;
     PrintStream printer=null;
+
 
     ServerThread(Socket clientSocket, MainFrame frame) {
         this.clientSocket=clientSocket;
@@ -25,6 +27,7 @@ public class ServerThread extends Thread {
             inputStream=new BufferedInputStream(this.clientSocket.getInputStream());
             outputStream=new BufferedOutputStream(this.clientSocket.getOutputStream());
             printer=new PrintStream(outputStream);
+            scanner=new Scanner(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -33,8 +36,9 @@ public class ServerThread extends Thread {
         while(isInterrupted()==false&&clientSocket.isConnected()) {
             synchronized (frame) {
                 try {
+                    scanner.nextLine();
                     frame.save(printer);
-                    //Thread.sleep(10);
+                    printer.flush();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
