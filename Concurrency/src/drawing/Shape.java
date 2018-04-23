@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public abstract class Shape implements Drawable, Animatable {
+public abstract class Shape implements Drawable, Animatable, Serializable {
     protected Point location;
 
     protected Color solidColor=Color.WHITE, borderColor=Color.BLACK;

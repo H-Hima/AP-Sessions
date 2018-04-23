@@ -1,6 +1,7 @@
 package drawing;
 
 import java.awt.*;
+import java.io.Serializable;
 
 public class Triangle extends Shape implements Drawable {
 

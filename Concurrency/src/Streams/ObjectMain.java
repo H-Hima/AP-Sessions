@@ -1,5 +1,7 @@
 package Streams;
 
+import drawing.Circle;
+import drawing.Point;
 import jdk.internal.org.objectweb.asm.commons.SerialVersionUIDAdder;
 
 import java.io.*;
@@ -16,23 +18,26 @@ public class ObjectMain implements Serializable{
 
         Thread thread1=new Thread(new Runnable() {
 
-            ObjectOutputStream objectPrinter = null;
+            ObjectOutputStream objectOutput = null;
+            ObjectInputStream objectInput = null;
 
             @Override
             public void run() {
                 try {
-                    objectPrinter = new ObjectOutputStream(pipeOutput);
+                    objectOutput = new ObjectOutputStream(pipeOutput);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                ArrayList<Object> myList=new ArrayList<>();
                 while(true) {
-                    ArrayList<Object> myList=new ArrayList<>();
                     myList.add("First");
                     myList.add(100);
                     myList.add(100.0);
+                    myList.add(new Circle(new Point(10,10),10));
                     try {
-                        objectPrinter.writeObject(myList);
-                        Thread.sleep(10000);
+                        objectOutput.reset();
+                        objectOutput.writeObject(myList);
+                        Thread.sleep(5000);
                     } catch (IOException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -45,15 +50,13 @@ public class ObjectMain implements Serializable{
 
         Thread thread2=new Thread(new Runnable() {
 
+            ObjectOutputStream objectOutput = null;
             ObjectInputStream objectInput=null;
 
             @Override
             public void run() {
                 try {
                     objectInput= new ObjectInputStream(pipeInput);
-                    Object str="My String";
-                    Class c=str.getClass();
-                    c=String.class;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

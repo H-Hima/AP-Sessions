@@ -1,12 +1,14 @@
 package drawing;
 
+import Synchronization.Printer;
+
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.PrintStream;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -188,6 +190,35 @@ public class PaintPanel extends JPanel {
                 shapes.add(shape);
             }
             animating = scanner.nextBoolean();
+            repaint();
+        }
+    }
+
+    public void save(ObjectOutputStream printer) {
+        synchronized (this) {
+            try {
+                printer.reset();
+                printer.writeObject(shapes);
+                System.out.println(shapes.size());
+                printer.writeBoolean(animating);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void load(ObjectInputStream scanner) {
+        synchronized (this) {
+            setAnimating(false);
+            try {
+                shapes=(ArrayList<Shape>) scanner.readObject();
+                System.out.println(shapes.size());
+                animating = scanner.readBoolean();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
             repaint();
         }
     }

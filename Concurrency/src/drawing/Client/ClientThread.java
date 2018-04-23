@@ -1,10 +1,8 @@
 package drawing.Client;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.Date;
 import java.util.Scanner;
 
 public class ClientThread extends Thread {
@@ -12,8 +10,8 @@ public class ClientThread extends Thread {
     Socket clientSocket=null;
     BufferedOutputStream outputStream=null;
     BufferedInputStream inputStream=null;
-    Scanner scanner=null;
-    PrintStream printer=null;
+    ObjectInputStream objectInputStream=null;
+    ObjectOutputStream objectOutputStream=null;
 
     ClientThread(Socket clientSocket, MainFrame frame) {
         this.clientSocket=clientSocket;
@@ -22,20 +20,27 @@ public class ClientThread extends Thread {
 
     public void run() {
         try {
-            inputStream=new BufferedInputStream(clientSocket.getInputStream());
             outputStream=new BufferedOutputStream(clientSocket.getOutputStream());
-            scanner=new Scanner(inputStream);
-            printer=new PrintStream(outputStream);
+            inputStream=new BufferedInputStream(clientSocket.getInputStream());
+            objectOutputStream=new ObjectOutputStream(outputStream);
+            objectOutputStream.write(5);
+            objectOutputStream.flush();
+            objectInputStream=new ObjectInputStream(inputStream);
+            objectInputStream.read();
         } catch (IOException e) {
             e.printStackTrace();
             return;
         }
 
         while(isInterrupted()==false&&clientSocket.isConnected()) {
-            printer.println();
-            printer.flush();
-            frame.load(scanner);
-            //frame.repaint();
+            try {
+                objectOutputStream.write(10);
+                objectOutputStream.flush();
+                frame.load(objectInputStream);
+                //frame.repaint();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         try {
             clientSocket.close();

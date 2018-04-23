@@ -2,6 +2,7 @@ package drawing;
 
 import java.awt.*;
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.Scanner;
 
 public class Rectangle extends Shape implements Animatable {

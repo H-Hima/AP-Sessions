@@ -1,9 +1,10 @@
 package drawing;
 
 import java.io.PrintStream;
+import java.io.Serializable;
 import java.util.Scanner;
 
-public class Point {
+public class Point implements Serializable {
     protected double x,y;
 
     public Point(double x,double y) {

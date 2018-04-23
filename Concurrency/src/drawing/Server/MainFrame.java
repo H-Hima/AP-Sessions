@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.util.Scanner;
@@ -29,6 +31,18 @@ public class MainFrame extends JFrame {
 
     MainFrame() {
         initialize();
+    }
+
+    public void save(ObjectOutputStream objectOutputStream) {
+        synchronized (this) {
+            paintPanel.save(objectOutputStream);
+        }
+    }
+
+    public void load(ObjectInputStream objectInputStream) {
+        synchronized (this) {
+            paintPanel.load(objectInputStream);
+        }
     }
 
     public void save(PrintStream printer) {
@@ -110,6 +124,7 @@ public class MainFrame extends JFrame {
                 drawing.Rectangle rect = new Rectangle(new Point(100, 100), 300, 400);
                 Circle circle = new Circle(new Point(300, 300), 200);
 
+                /*
                 circle.addAnimation(new Animation(10) {
 
                     boolean increasingRadius = true;
@@ -170,7 +185,7 @@ public class MainFrame extends JFrame {
                             rect.setThickness(rect.getThickness() - 1);
                     }
                 });
-
+*/
                 paintPanel.addShape(rect);
                 paintPanel.addShape(circle);
                 paintPanel.repaint();

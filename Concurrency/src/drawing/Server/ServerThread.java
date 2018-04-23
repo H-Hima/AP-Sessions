@@ -1,9 +1,6 @@
 package drawing.Server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
@@ -13,8 +10,8 @@ public class ServerThread extends Thread {
     Socket clientSocket=null;
     BufferedOutputStream outputStream=null;
     BufferedInputStream inputStream=null;
-    Scanner scanner=null;
-    PrintStream printer=null;
+    ObjectInputStream objectInputStream=null;
+    ObjectOutputStream objectOutputStream=null;
 
 
     ServerThread(Socket clientSocket, MainFrame frame) {
@@ -24,10 +21,13 @@ public class ServerThread extends Thread {
 
     public void run() {
         try {
-            inputStream=new BufferedInputStream(this.clientSocket.getInputStream());
             outputStream=new BufferedOutputStream(this.clientSocket.getOutputStream());
-            printer=new PrintStream(outputStream);
-            scanner=new Scanner(inputStream);
+            inputStream=new BufferedInputStream(this.clientSocket.getInputStream());
+            objectOutputStream=new ObjectOutputStream(outputStream);
+            objectOutputStream.write(5);
+            objectOutputStream.flush();
+            objectInputStream=new ObjectInputStream(inputStream);
+            objectInputStream.read();
         } catch (IOException e) {
             e.printStackTrace();
             return;
@@ -36,9 +36,9 @@ public class ServerThread extends Thread {
         while(isInterrupted()==false&&clientSocket.isConnected()) {
             synchronized (frame) {
                 try {
-                    scanner.nextLine();
-                    frame.save(printer);
-                    printer.flush();
+                    objectInputStream.read();
+                    frame.save(objectOutputStream);
+                    objectOutputStream.flush();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

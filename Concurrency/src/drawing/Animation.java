@@ -1,13 +1,16 @@
 package drawing;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public abstract class Animation implements Animatable {
+public abstract class Animation implements Animatable, Serializable {
+
     boolean animating=true;
     Date nextAnimation=new Date();
     int stepDelay;
 
+    public static final long serialVersionUID=10L;
 
     public boolean getAnimating() {
         return animating;

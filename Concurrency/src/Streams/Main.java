@@ -2,10 +2,13 @@ package Streams;
 
 import java.awt.*;
 import java.io.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String args[]) throws IOException {
+
         PipedInputStream pipeInput=new PipedInputStream();
         PipedOutputStream pipeOutput=new PipedOutputStream(pipeInput);
 
