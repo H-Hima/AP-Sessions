@@ -24,6 +24,10 @@ public class PaintPanel extends JPanel {
 
     boolean animating;
 
+    private void test() {
+
+    }
+
     public PaintPanel(Dimension dimension) {
         this.setSize(dimension);
         initialize();

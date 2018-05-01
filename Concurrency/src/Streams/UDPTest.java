@@ -30,6 +30,5 @@ public class UDPTest {
         Scanner scanner=new Scanner(inputStream);
         System.out.println(scanner.next());
 
-
     }
 }
