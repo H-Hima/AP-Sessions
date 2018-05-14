@@ -7,34 +7,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public abstract class Shape2 implements Drawable, Animatable, Serializable {
-    protected Point2 location;
+public abstract class Shape implements Drawable, Animatable, Serializable {
+    protected Point location;
 
     protected Color solidColor=Color.WHITE, borderColor=Color.BLACK;
     protected int thickness=3;
 
     protected ArrayList<Animation> animations=new ArrayList<>();
 
-    Shape2(Point2 location) {
+    Shape(Point location) {
         this.location=location;
     }
 
-    public Point2 getLocation() {
+    public Point getLocation() {
         return location;
     }
 
-    public void setLocation(Point2 location) {
+    public void setLocation(Point location) {
         this.location = location;
     }
 
-    Shape2(Point2 location, Color solidColor, Color borderColor) {
+    Shape(Point location, Color solidColor, Color borderColor) {
         this.location=location;
         this.borderColor=borderColor;
         this.solidColor=solidColor;
     }
 
-    public Shape2(Scanner scanner) {
-        location = new Point2(scanner);
+    public Shape(Scanner scanner) {
+        location = new Point(scanner);
         thickness=scanner.nextInt();
         solidColor = new Color(scanner.nextInt());
         borderColor = new Color(scanner.nextInt());
@@ -64,7 +64,7 @@ public abstract class Shape2 implements Drawable, Animatable, Serializable {
         this.borderColor=color;
     }
 
-    public abstract boolean isIn(Point2 p);
+    public abstract boolean isIn(Point p);
 
     public abstract double getArea();
 
@@ -76,7 +76,7 @@ public abstract class Shape2 implements Drawable, Animatable, Serializable {
     }
 
     public void load(Scanner scanner) {
-        location = new Point2(scanner);
+        location = new Point(scanner);
         thickness=scanner.nextInt();
         solidColor = new Color(scanner.nextInt());
         borderColor = new Color(scanner.nextInt());

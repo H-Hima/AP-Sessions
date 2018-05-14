@@ -4,7 +4,7 @@ import java.awt.*;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class Rectangle2 extends Shape2 implements Animatable {
+public class Rectangle extends Shape implements Animatable {
 
     protected double width;
     protected double height;
@@ -13,27 +13,27 @@ public class Rectangle2 extends Shape2 implements Animatable {
 
     }
 
-    public Rectangle2(double width, double height) {
-        this(new Point2(0,0),width,height,Color.RED,Color.BLUE);
+    public Rectangle(double width, double height) {
+        this(new Point(0,0),width,height,Color.RED,Color.BLUE);
     }
 
-    public Rectangle2(Point2 upperLeft , double width, double height) {
+    public Rectangle(Point upperLeft , double width, double height) {
         this(upperLeft,width,height,Color.RED,Color.BLUE);
     }
 
-    public Rectangle2(Point2 upperLeft , double width, double height, Color solidColor, Color borderColor) {
+    public Rectangle(Point upperLeft , double width, double height, Color solidColor, Color borderColor) {
         super(upperLeft, solidColor, borderColor);
         this.width=width;
         this.height=height;
     }
 
-    public Rectangle2(Scanner scanner) {
+    public Rectangle(Scanner scanner) {
         super(scanner);
         load(scanner,false);
     }
 
-    public static Rectangle2 RectangleFactory(Scanner scanner) {
-        Rectangle2 c=new Rectangle2(scanner);//and load it if needed
+    public static Rectangle RectangleFactory(Scanner scanner) {
+        Rectangle c=new Rectangle(scanner);//and load it if needed
         return c;
     }
 
@@ -72,8 +72,8 @@ public class Rectangle2 extends Shape2 implements Animatable {
     }
 
 
-    public boolean isIn(Point2 p) {
-        Point2 dif=p.subtract(location);
+    public boolean isIn(Point p) {
+        Point dif=p.subtract(location);
         if(dif.getX()>0&&dif.getY()>0&&dif.getX()<width&&dif.getY()<height)
             return true;
         return false;
@@ -98,6 +98,6 @@ public class Rectangle2 extends Shape2 implements Animatable {
     }
 
     public String toString() {
-        return "Rectangle2 String...";
+        return "Rectangle String...";
     }
 }

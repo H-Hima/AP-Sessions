@@ -89,13 +89,13 @@ public class MainFrame extends JFrame {
                 paintPanel.repaint();
             }
         });
-        addButton=new JButton("Add Shape2");
+        addButton=new JButton("Add Shape");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paintPanel.clearShapes();
-                Rectangle2 rect = new Rectangle2(new Point2(100, 100), 300, 400);
-                Circle circle = new Circle(new Point2(300, 300), 200);
+                Rectangle rect = new Rectangle(new Point(100, 100), 300, 400);
+                Circle circle = new Circle(new Point(300, 300), 200);
 
                 circle.addAnimation(new Animation(10) {
 

@@ -1,6 +1,6 @@
 package Reflection;
 
-import drawing.Point2;
+import drawing.Point;
 
 import java.lang.reflect.*;
 import java.net.MalformedURLException;
@@ -39,13 +39,13 @@ public class MainInvocation {
         Method method = MainInvocation.class.getDeclaredMethod("function", null);
 
         Field publicF = MainInvocation.class.getField("publicField");
-        Field privateF = Point2.class.getDeclaredField("x");
+        Field privateF = Point.class.getDeclaredField("x");
 
         staticMethod.invoke(null, 10);
         MainInvocation object = new MainInvocation();
         method.invoke(object, null);
 
-        Point2 p = new Point2(10, 10);
+        Point p = new Point(10, 10);
         privateF.setAccessible(true);
         privateF.set(p, 123);
         Object o = privateF.get(p);

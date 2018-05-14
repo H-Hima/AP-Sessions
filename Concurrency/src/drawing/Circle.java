@@ -4,15 +4,15 @@ import java.awt.*;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class Circle extends Shape2 implements Drawable {
+public class Circle extends Shape implements Drawable {
 
     protected double radius=100;
 
-    public Circle(Point2 center, double radius) {
+    public Circle(Point center, double radius) {
         this(center,radius,Color.GREEN,Color.PINK);
     }
 
-    public Circle(Point2 location, double radius, Color solidColor, Color borderColor) {
+    public Circle(Point location, double radius, Color solidColor, Color borderColor) {
         super(location, solidColor, borderColor);
         this.radius=radius;
     }
@@ -35,7 +35,7 @@ public class Circle extends Shape2 implements Drawable {
         G.setStroke(stroke);
     }
 
-    public boolean isIn(Point2 p) {
+    public boolean isIn(Point p) {
         double dist=location.subtract(p).getRad();
         return dist<radius;
     }

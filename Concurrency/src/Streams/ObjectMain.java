@@ -1,7 +1,7 @@
 package Streams;
 
 import drawing.Circle;
-import drawing.Point2;
+import drawing.Point;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -31,7 +31,7 @@ public class ObjectMain implements Serializable{
                     myList.add("First");
                     myList.add(100);
                     myList.add(100.0);
-                    myList.add(new Circle(new Point2(10,10),10));
+                    myList.add(new Circle(new Point(10,10),10));
                     try {
                         objectOutput.reset();
                         objectOutput.writeObject(myList);
