@@ -1,8 +1,5 @@
 package drawing.Client;
 
-import drawing.Circle;
-import drawing.Point;
-
 import javax.swing.*;
 import java.io.IOException;
 

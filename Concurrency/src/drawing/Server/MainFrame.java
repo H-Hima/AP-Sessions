@@ -1,8 +1,8 @@
 package drawing.Server;
 
 import drawing.*;
-import drawing.Point;
-import drawing.Rectangle;
+import drawing.Point2;
+import drawing.Rectangle2;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
-import java.net.ServerSocket;
 import java.util.Scanner;
 
 public class MainFrame extends JFrame {
@@ -116,13 +115,13 @@ public class MainFrame extends JFrame {
                 paintPanel.repaint();
             }
         });
-        addButton=new JButton("Add Shape");
+        addButton=new JButton("Add Shape2");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paintPanel.clearShapes();
-                drawing.Rectangle rect = new Rectangle(new Point(100, 100), 300, 400);
-                Circle circle = new Circle(new Point(300, 300), 200);
+                Rectangle2 rect = new Rectangle2(new Point2(100, 100), 300, 400);
+                Circle circle = new Circle(new Point2(300, 300), 200);
 
                 /*
                 circle.addAnimation(new Animation(10) {

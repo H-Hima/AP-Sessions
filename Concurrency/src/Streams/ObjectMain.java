@@ -1,12 +1,10 @@
 package Streams;
 
 import drawing.Circle;
-import drawing.Point;
-import jdk.internal.org.objectweb.asm.commons.SerialVersionUIDAdder;
+import drawing.Point2;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class ObjectMain implements Serializable{
 
@@ -33,7 +31,7 @@ public class ObjectMain implements Serializable{
                     myList.add("First");
                     myList.add(100);
                     myList.add(100.0);
-                    myList.add(new Circle(new Point(10,10),10));
+                    myList.add(new Circle(new Point2(10,10),10));
                     try {
                         objectOutput.reset();
                         objectOutput.writeObject(myList);

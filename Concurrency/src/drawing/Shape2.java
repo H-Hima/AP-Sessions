@@ -1,6 +1,5 @@
 package drawing;
 
-import javax.xml.stream.Location;
 import java.awt.*;
 import java.io.PrintStream;
 import java.io.Serializable;
@@ -8,34 +7,34 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
-public abstract class Shape implements Drawable, Animatable, Serializable {
-    protected Point location;
+public abstract class Shape2 implements Drawable, Animatable, Serializable {
+    protected Point2 location;
 
     protected Color solidColor=Color.WHITE, borderColor=Color.BLACK;
     protected int thickness=3;
 
     protected ArrayList<Animation> animations=new ArrayList<>();
 
-    Shape(Point location) {
+    Shape2(Point2 location) {
         this.location=location;
     }
 
-    public Point getLocation() {
+    public Point2 getLocation() {
         return location;
     }
 
-    public void setLocation(Point location) {
+    public void setLocation(Point2 location) {
         this.location = location;
     }
 
-    Shape(Point location,Color solidColor,Color borderColor) {
+    Shape2(Point2 location, Color solidColor, Color borderColor) {
         this.location=location;
         this.borderColor=borderColor;
         this.solidColor=solidColor;
     }
 
-    public Shape(Scanner scanner) {
-        location = new Point(scanner);
+    public Shape2(Scanner scanner) {
+        location = new Point2(scanner);
         thickness=scanner.nextInt();
         solidColor = new Color(scanner.nextInt());
         borderColor = new Color(scanner.nextInt());
@@ -65,7 +64,7 @@ public abstract class Shape implements Drawable, Animatable, Serializable {
         this.borderColor=color;
     }
 
-    public abstract boolean isIn(Point p);
+    public abstract boolean isIn(Point2 p);
 
     public abstract double getArea();
 
@@ -77,7 +76,7 @@ public abstract class Shape implements Drawable, Animatable, Serializable {
     }
 
     public void load(Scanner scanner) {
-        location = new Point(scanner);
+        location = new Point2(scanner);
         thickness=scanner.nextInt();
         solidColor = new Color(scanner.nextInt());
         borderColor = new Color(scanner.nextInt());

@@ -1,14 +1,10 @@
 package drawing;
 
-import javafx.scene.chart.Axis;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.Scanner;
 
 public class MainFrame extends JFrame {
@@ -93,13 +89,13 @@ public class MainFrame extends JFrame {
                 paintPanel.repaint();
             }
         });
-        addButton=new JButton("Add Shape");
+        addButton=new JButton("Add Shape2");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paintPanel.clearShapes();
-                Rectangle rect = new Rectangle(new Point(100, 100), 300, 400);
-                Circle circle = new Circle(new Point(300, 300), 200);
+                Rectangle2 rect = new Rectangle2(new Point2(100, 100), 300, 400);
+                Circle circle = new Circle(new Point2(300, 300), 200);
 
                 circle.addAnimation(new Animation(10) {
 

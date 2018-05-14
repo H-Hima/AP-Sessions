@@ -13,7 +13,8 @@ public class Main {
     @SuppressWarnings("all")
     @MyAnnotation(value = "a",b="lasjkhnfdl",clock=10,a=5)
     @SingleFieldAnnotaion(234)
-    public static void main(String args[]) {
+
+    public static void main(String... args) {
         String str="test string";
         PaintPanel panel=new PaintPanel(new Dimension(10,10));
         Class type=panel.getClass();

@@ -4,15 +4,15 @@ import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.Scanner;
 
-public class Point implements Serializable {
+public class Point2 implements Serializable {
     protected double x,y;
 
-    public Point(double x,double y) {
+    public Point2(double x, double y) {
         this.x=x;
         this.y=y;
     }
 
-    public Point(Scanner scanner) {
+    public Point2(Scanner scanner) {
         load(scanner);
     }
 
@@ -30,19 +30,19 @@ public class Point implements Serializable {
         this.y=y;
     }
 
-    public Point subtract(Point p) {
-        return new Point(x-p.x,y-p.y);
+    public Point2 subtract(Point2 p) {
+        return new Point2(x-p.x,y-p.y);
     }
 
-    public Point add(Point p) {
-        return new Point(p.x+x,p.y+y);
+    public Point2 add(Point2 p) {
+        return new Point2(p.x+x,p.y+y);
     }
 
-    public double dotProduct(Point p) {
+    public double dotProduct(Point2 p) {
         return (x*p.x+y*p.y);
     }
 
-    public double crossProduct(Point p) {
+    public double crossProduct(Point2 p) {
         return (x*p.y-y*p.x);
     }
 
@@ -58,5 +58,9 @@ public class Point implements Serializable {
     public void load(Scanner scanner) {
         x=scanner.nextDouble();
         y=scanner.nextDouble();
+    }
+
+    public String toString() {
+        return "Before Copy: ("+x+","+y+")...";
     }
 }

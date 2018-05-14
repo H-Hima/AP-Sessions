@@ -1,24 +1,19 @@
 package drawing;
 
-import Synchronization.Printer;
-
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 
 public class PaintPanel extends JPanel {
 
-    ArrayList<Shape> shapes=new ArrayList<>();
-    Point previousMouseLocation=null;
-    Shape selectedShape=null;
+    ArrayList<Shape2> shape2s =new ArrayList<>();
+    Point2 previousMouseLocation=null;
+    Shape2 selectedShape2 =null;
 
     Thread animationThread;
 
@@ -47,9 +42,9 @@ public class PaintPanel extends JPanel {
                         continue;
                     }
 
-                    Iterator<Shape> iterator=shapes.iterator();
+                    Iterator<Shape2> iterator= shape2s.iterator();
                     while(iterator.hasNext()) {
-                        Shape cur=iterator.next();
+                        Shape2 cur=iterator.next();
                         cur.step();
                     }
                     try {
@@ -66,19 +61,19 @@ public class PaintPanel extends JPanel {
         addMouseMotionListener(new MouseMotionListener() {
             @Override
             public void mouseDragged(MouseEvent e) {
-                Point curLocation=new Point(e.getX(),e.getY());
-                Point dif=curLocation.subtract(previousMouseLocation);
+                Point2 curLocation=new Point2(e.getX(),e.getY());
+                Point2 dif=curLocation.subtract(previousMouseLocation);
                 previousMouseLocation=curLocation;
-                if(selectedShape!=null) {
-                    selectedShape.setLocation(selectedShape.getLocation().add(dif));
+                if(selectedShape2 !=null) {
+                    selectedShape2.setLocation(selectedShape2.getLocation().add(dif));
                 }
                 repaint();
             }
 
             @Override
             public void mouseMoved(MouseEvent e) {
-                //Point curLocation=new Point(e.getX(),e.getY());
-                //Point dif=curLocation.subtract(previousMouseLocation);
+                //Point2 curLocation=new Point2(e.getX(),e.getY());
+                //Point2 dif=curLocation.subtract(previousMouseLocation);
             }
         });
 
@@ -90,12 +85,12 @@ public class PaintPanel extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                previousMouseLocation=new Point(e.getX(),e.getY());
-                Iterator<Shape> iterator=shapes.iterator();
+                previousMouseLocation=new Point2(e.getX(),e.getY());
+                Iterator<Shape2> iterator= shape2s.iterator();
                 while(iterator.hasNext()) {
-                    Shape cur=iterator.next();
+                    Shape2 cur=iterator.next();
                     if(cur.isIn(previousMouseLocation)) {
-                        selectedShape=cur;
+                        selectedShape2 =cur;
                     }
                 }
             }
@@ -103,7 +98,7 @@ public class PaintPanel extends JPanel {
             @Override
             public void mouseReleased(MouseEvent e) {
                 previousMouseLocation=null;
-                selectedShape=null;
+                selectedShape2 =null;
             }
 
             @Override
@@ -124,9 +119,9 @@ public class PaintPanel extends JPanel {
     protected void paintComponent(Graphics G) {
         synchronized (this) {
             super.paintComponent(G);
-            Iterator<Shape> iterator = shapes.iterator();
+            Iterator<Shape2> iterator = shape2s.iterator();
             while (iterator.hasNext()) {
-                Shape cur = iterator.next();
+                Shape2 cur = iterator.next();
                 cur.render((Graphics2D) G);
             }
         }
@@ -144,24 +139,24 @@ public class PaintPanel extends JPanel {
         }
     }
 
-    public void addShape(Shape shape) {
+    public void addShape(Shape2 shape2) {
         synchronized (this) {
-            shapes.add(shape);
+            shape2s.add(shape2);
         }
     }
 
     public void clearShapes() {
         synchronized (this) {
-            shapes.clear();
+            shape2s.clear();
         }
     }
 
     public void save(PrintStream printer) {
         synchronized (this) {
-            printer.println(shapes.size());
-            for (Shape shape : shapes) {
-                printer.println(shape.getClass().getCanonicalName());
-                shape.save(printer);
+            printer.println(shape2s.size());
+            for (Shape2 shape2 : shape2s) {
+                printer.println(shape2.getClass().getCanonicalName());
+                shape2.save(printer);
             }
             printer.println(animating);
         }
@@ -170,28 +165,28 @@ public class PaintPanel extends JPanel {
     public void load(Scanner scanner) {
         synchronized (this) {
             setAnimating(false);
-            shapes = new ArrayList<>();
+            shape2s = new ArrayList<>();
             int size = scanner.nextInt();
             for (int i=0;i<size;i++) {
                 scanner.nextLine();
                 String type = scanner.nextLine();
-                Shape shape = null;
+                Shape2 shape2 = null;
                 switch (type) {
                     case "drawing.Circle":
-                        shape=new Circle(scanner);
+                        shape2 =new Circle(scanner);
                         break;
-                    case "drawing.Rectangle":
-                        shape=new Rectangle(scanner);
+                    case "drawing.Rectangle2":
+                        shape2 =new Rectangle2(scanner);
                         break;
                     case "drawing.Triangle":
-                        //shape = new Rectangle(new Point(0, 0), 10, 10);
-                        //shape.load(scanner);
+                        //shape2 = new Rectangle2(new Point2(0, 0), 10, 10);
+                        //shape2.load(scanner);
                         break;
                     case "drawing.Line":
-                        shape = new Line(scanner);
+                        shape2 = new Line(scanner);
                         break;
                 }
-                shapes.add(shape);
+                shape2s.add(shape2);
             }
             animating = scanner.nextBoolean();
             repaint();
@@ -202,8 +197,8 @@ public class PaintPanel extends JPanel {
         synchronized (this) {
             try {
                 printer.reset();
-                printer.writeObject(shapes);
-                System.out.println(shapes.size());
+                printer.writeObject(shape2s);
+                System.out.println(shape2s.size());
                 printer.writeBoolean(animating);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -215,8 +210,8 @@ public class PaintPanel extends JPanel {
         synchronized (this) {
             setAnimating(false);
             try {
-                shapes=(ArrayList<Shape>) scanner.readObject();
-                System.out.println(shapes.size());
+                shape2s =(ArrayList<Shape2>) scanner.readObject();
+                System.out.println(shape2s.size());
                 animating = scanner.readBoolean();
             } catch (IOException e) {
                 e.printStackTrace();

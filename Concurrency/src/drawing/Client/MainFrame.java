@@ -1,8 +1,6 @@
 package drawing.Client;
 
 import drawing.*;
-import drawing.Point;
-import drawing.Rectangle;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,18 +10,8 @@ import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 
-import drawing.*;
-import drawing.Point;
-import drawing.Rectangle;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.net.ServerSocket;
-import java.util.Scanner;
 
 public class MainFrame extends JFrame {
 
