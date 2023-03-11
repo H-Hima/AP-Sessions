@@ -7,6 +7,9 @@ public class XOFrame extends JFrame {
     JPanel contentPane;
     JButton[][] board=new JButton[3][3];
 
+    final static Color[] colors = {Color.RED, Color.BLUE, Color.GREEN};
+    int offset = 0;
+
     int turn=0;
     String turnString[]={"O","X"};
     Color turnColor[]={Color.RED,Color.GREEN};
@@ -23,17 +26,15 @@ public class XOFrame extends JFrame {
 
         for(int i=0;i<3;i++) {
             for(int j=0;j<3;j++) {
-                JButton button=new JButton() {
+                JButton button=new JButton()
+                {
                     @Override
                     public void paintComponent(Graphics g) {
                         super.paintComponent(g);
-
-                        g.setColor(Color.YELLOW);
+                        g.setColor(colors[(int)(Math.random()*colors.length)]);
                         g.fillOval(10,10,40,40);
                     }
                 };
-
-
 
                 board[i][j]=button;
 
@@ -62,5 +63,11 @@ public class XOFrame extends JFrame {
                 JOptionPane.showMessageDialog(this,turnString[turn]+" Wins");
             }
         }
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        super.paint(g);
+        g.drawLine(10+offset, 10, 500, 500);
     }
 }

@@ -8,7 +8,10 @@ import java.util.Random;
 
 public class Main {
     static Random random=new Random();
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        System.out.println(screenSize);
+
         JFrame frame=new JFrame("My Frame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(700,700));
@@ -69,9 +72,10 @@ public class Main {
         XOFrame myFrame=new XOFrame();
         myFrame.setVisible(true);
 
-        Graphics g=myFrame.getGraphics();
-        while(true) {
-            g.drawLine(10, 10, 500, 500);
+        while (true) {
+            myFrame.repaint();
+            myFrame.offset+=10;
+            Thread.sleep(100);
         }
     }
 }
