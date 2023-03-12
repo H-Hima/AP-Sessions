@@ -25,6 +25,10 @@ public class MySemaphore {
         this.bound=bound;
     }
 
+    MySemaphore(int permits,int bound) {
+        this(new Object(),permits,bound);
+    }
+
     void myWait() {
         synchronized (monitor) {
             while(permits==0) {

@@ -6,11 +6,10 @@ import java.util.Scanner;
 
 public class PipeMain {
     public static void main(String args[]) throws IOException {
-        PipedInputStream pipeInput=new PipedInputStream();
-        PipedOutputStream pipeOutput=new PipedOutputStream(pipeInput);
+        PipedOutputStream pipeOutput=new PipedOutputStream();
+        PipedInputStream pipeInput=new PipedInputStream(pipeOutput);
 
         Thread thread1=new Thread(new Runnable() {
-
             @Override
             public void run() {
                 Scanner stdSccanner=new Scanner(System.in);

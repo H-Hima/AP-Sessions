@@ -1,5 +1,9 @@
 package DataBase;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.StringReader;
 import java.sql.*;
 
 public class ProgramInstance {
@@ -20,7 +24,7 @@ public class ProgramInstance {
         Class.forName("com.mysql.cj.jdbc.Driver");
     }
 
-    public void runSampleCode() throws SQLException {
+    public void runSampleCode() throws SQLException, IOException {
         connection = getConnection();
 //        connection.getMetaData().supportsResultSetConcurrency(1,ResultSet.CONCUR_READ_ONLY);
 //        connection.getMetaData().supportsResultSetType(1);
@@ -31,6 +35,8 @@ public class ProgramInstance {
 
         ResultSet result = query.executeQuery("SELECT course_name,units,grade,name,last_name from ( (course_human join humans on id=human_id) join courses on courses.courseid=course_human.course_id)");
         while(result.next()) {
+            result.getMetaData().getColumnType(5);
+
             System.out.println(result.getInt("grade"));
             System.out.println(result.getString("course_name"));
             System.out.println(result.getString("name"));
@@ -41,7 +47,16 @@ public class ProgramInstance {
             return;
         }
 
+        ObjectInputStream os=null;
+        byte[] aa;
+        int len=os.read(aa);
+        byte[] a=new byte[len];
+
         try {
+            PreparedStatement statement=connection.prepareStatement("Insert into saves (game_id,value) Values (:id,:val)");
+            byte[] byteArray=null;
+            statement.setBytes(2,byteArray);
+            statement.setString(1,"sdfsdfs");
             query.execute("INSERT INTO humans\n" +
                     "(ID,Name,Last_Name,Email) VALUES(19,'A','B','c@d.com')");
         } catch (Exception ex) {
